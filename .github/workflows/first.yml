@@ -1,5 +1,19 @@
 name: first
-on: push
+on: 
+  push:
+    branches:
+      - '**'
+  
+  workflow_dispatch:
+    inputs:
+    # we have kind of gated deployment for qa and prod environments, which is manual in gitlab ci/cd, this is an attempt to replicate that.
+      deploy_env:
+        type: choice
+        description: 'Environment to deploy to either qa or prod'
+        required: false
+        options:
+          - qa
+          - prod
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -15,4 +29,12 @@ jobs:
         uses: actions/checkout@v2
       - name: step two
         run: "Get-ChildItem Env: | Sort-Object Name"
-    
+  job3:
+    runs-on: windows-latest
+    needs: job2
+    if: github.ref == 'refs/heads/main' && github.event.inputs.deploy_env == 'qa'
+    steps:
+    - name: step one
+      uses: actions/cehckout@v2
+    - name: step two
+      run: "Get-ChildItem Env: | Sort-Object Name"
