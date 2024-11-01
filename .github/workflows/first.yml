@@ -10,7 +10,7 @@ on:
       deploy_env:
         type: choice
         description: 'Environment to deploy to either qa or prod'
-        required: false
+        required: true
         options:
           - qa
           - prod
