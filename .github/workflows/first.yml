@@ -33,7 +33,7 @@ jobs:
     runs-on: windows-latest
     needs: job2
     environment: qa
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/mai'
     steps:
     - name: step one
       uses: actions/checkout@v2
